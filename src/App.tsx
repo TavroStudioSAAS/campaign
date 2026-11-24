@@ -25,6 +25,7 @@ import pathImg from "./assets/img/learning-path.webp";
 import vlogImg from "./assets/img/vlog-editor.webp";
 import shringarImg from "./assets/img/shringar.webp";
 import { track } from "./tracking";
+import { NeutralVideoSkin, Video as PlayerVideo, VideoPlayer } from "@videojs/react/video";
 import { ArrowRight, ArrowUpRight, BadgeCheck, Brain, Check, ChevronRight, Gamepad2, Globe, MessageCircle, Mic, Music, Smartphone, Sparkles, Star, Users, Video, Volume2 } from "lucide-react";
 
 const VIDEO = `${import.meta.env.BASE_URL}media/bootcamp-intro.mp4`;
@@ -101,15 +102,15 @@ function WhatsAppBtn({ href, label, dark = false }: { href: string; label: strin
   return <a href={href} target="_blank" rel="noopener" className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-[15px] font-extrabold transition hover:-translate-y-0.5 ${dark ? "bg-[#18a34a] text-white" : "bg-white text-[#0b7a3c] border border-[#b9efc9]"}`}><MessageCircle size={19} />{label}</a>;
 }
 function FeaturedVideo() {
-  const ref = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const playWithSound = () => {
-    const v = ref.current;
+    const v = videoRef.current;
     if (!v) return;
+    v.loop = false;
     v.currentTime = 0;
     v.muted = false;
-    v.loop = false;
-    v.controls = true;
+    v.volume = 1;
     v.play().catch(() => {});
     setMuted(false);
     track("video_play_with_sound", { video_title: "FREE Odia AI Bootcamp intro" });
@@ -117,12 +118,14 @@ function FeaturedVideo() {
   return (
     <div className="relative">
       <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-[#ff6b1a]/40 via-amber-300/20 to-amber-300/30 blur-2xl" />
-      <div className="relative overflow-hidden rounded-[1.8rem] border-4 border-white/25 bg-black shadow-2xl">
-        <video ref={ref} className="block aspect-video w-full object-cover" poster={POSTER} autoPlay muted loop playsInline preload="metadata" aria-label="FREE Odia AI Bootcamp intro video">
-          <source src={VIDEO} type="video/mp4" />
-        </video>
+      <div className="relative overflow-hidden rounded-[1.8rem] border-4 border-white/25 bg-black shadow-2xl" onContextMenu={e => e.preventDefault()}>
+        <VideoPlayer poster={POSTER}>
+          <NeutralVideoSkin className="bootcamp-player block aspect-video w-full">
+            <PlayerVideo ref={videoRef} src={VIDEO} autoPlay muted loop playsInline preload="metadata" controlsList="nodownload" aria-label="FREE Odia AI Bootcamp intro video" />
+          </NeutralVideoSkin>
+        </VideoPlayer>
         {muted && (
-          <button type="button" onClick={playWithSound} className="absolute inset-x-0 bottom-3 mx-auto flex w-max items-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-[13px] font-extrabold text-[#0f1424] shadow-xl transition hover:scale-105">
+          <button type="button" onClick={playWithSound} className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full bg-white/95 px-5 py-3 text-[13px] font-extrabold text-[#0f1424] shadow-xl transition hover:scale-105">
             <Volume2 size={18} className="text-[var(--orange)]" /> Watch with sound
           </button>
         )}

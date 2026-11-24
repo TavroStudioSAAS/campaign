@@ -39,3 +39,7 @@ body {
 .tick { flex: 0 0 auto; width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; background: #fff0cc; color: #d45c00; font-weight: 800; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
+.bootcamp-player {
+  --media-accent-color: #ff6b1a;
+  --media-border-radius: 1.4rem;
+}
