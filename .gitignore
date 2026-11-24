@@ -1,0 +1,9 @@
+node_modules
+dist
+
+# local working files (not part of the site)
+/App.tsx
+/index.css
+/assets/
+/VN20261124_094311.mp4
+/landing-site.tgz
