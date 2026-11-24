@@ -8,7 +8,7 @@ initTracking();
 
 const app = (
   <React.Fragment>
-    <App />
+    <App route={window.location.pathname} />
   </React.Fragment>
 );
 const rootEl = document.getElementById("root")!;
