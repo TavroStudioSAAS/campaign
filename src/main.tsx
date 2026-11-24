@@ -7,9 +7,9 @@ import { initTracking } from "./tracking";
 initTracking();
 
 const app = (
-  <React.StrictMode>
+  <React.Fragment>
     <App />
-  </React.StrictMode>
+  </React.Fragment>
 );
 const rootEl = document.getElementById("root")!;
 if (rootEl.hasChildNodes()) ReactDOM.hydrateRoot(rootEl, app);
