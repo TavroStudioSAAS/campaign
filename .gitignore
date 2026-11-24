@@ -1,5 +1,6 @@
 node_modules
 dist
+dist-ssr
 
 # local working files (not part of the site)
 /App.tsx

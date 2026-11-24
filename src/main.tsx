@@ -6,8 +6,11 @@ import { initTracking } from "./tracking";
 
 initTracking();
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const app = (
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
+const rootEl = document.getElementById("root")!;
+if (rootEl.hasChildNodes()) ReactDOM.hydrateRoot(rootEl, app);
+else ReactDOM.createRoot(rootEl).render(app);

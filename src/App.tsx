@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./assets/img/codebitbybit-logo.png";
 import liveImg from "./assets/img/live-workshop.webp";
 import dreamImg from "./assets/img/dream.webp";
@@ -25,7 +25,6 @@ import pathImg from "./assets/img/learning-path.webp";
 import vlogImg from "./assets/img/vlog-editor.webp";
 import shringarImg from "./assets/img/shringar.webp";
 import { track } from "./tracking";
-import { NeutralVideoSkin, Video as PlayerVideo, VideoPlayer } from "@videojs/react/video";
 import { ArrowRight, ArrowUpRight, BadgeCheck, Brain, Check, ChevronRight, Gamepad2, Globe, MessageCircle, Mic, Music, Smartphone, Sparkles, Star, Users, Video, Volume2 } from "lucide-react";
 
 const VIDEO = `${import.meta.env.BASE_URL}media/bootcamp-intro.mp4`;
@@ -102,32 +101,21 @@ function WhatsAppBtn({ href, label, dark = false }: { href: string; label: strin
   return <a href={href} target="_blank" rel="noopener" className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-[15px] font-extrabold transition hover:-translate-y-0.5 ${dark ? "bg-[#18a34a] text-white" : "bg-white text-[#0b7a3c] border border-[#b9efc9]"}`}><MessageCircle size={19} />{label}</a>;
 }
 function FeaturedVideo() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [muted, setMuted] = useState(true);
-  const playWithSound = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.loop = false;
-    v.currentTime = 0;
-    v.muted = false;
-    v.volume = 1;
-    v.play().catch(() => {});
-    setMuted(false);
-    track("video_play_with_sound", { video_title: "FREE Odia AI Bootcamp intro" });
-  };
+  const [Player, setPlayer] = useState<React.ComponentType<{ video: string; poster: string }> | null>(null);
+  useEffect(() => {
+    import("./HeroPlayer").then(m => setPlayer(() => m.default)).catch(() => {});
+  }, []);
   return (
     <div className="relative">
       <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-[#ff6b1a]/40 via-amber-300/20 to-amber-300/30 blur-2xl" />
       <div className="relative overflow-hidden rounded-[1.8rem] border-4 border-white/25 bg-black shadow-2xl" onContextMenu={e => e.preventDefault()}>
-        <VideoPlayer poster={POSTER}>
-          <NeutralVideoSkin className="bootcamp-player block aspect-video w-full">
-            <PlayerVideo ref={videoRef} src={VIDEO} autoPlay muted loop playsInline preload="metadata" controlsList="nodownload" aria-label="FREE Odia AI Bootcamp intro video" />
-          </NeutralVideoSkin>
-        </VideoPlayer>
-        {muted && (
-          <button type="button" onClick={playWithSound} className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full bg-white/95 px-5 py-3 text-[13px] font-extrabold text-[#0f1424] shadow-xl transition hover:scale-105">
-            <Volume2 size={18} className="text-[var(--orange)]" /> Watch with sound
-          </button>
+        {Player ? (
+          <Player video={VIDEO} poster={POSTER} />
+        ) : (
+          <div className="relative aspect-video w-full bg-black">
+            <img src={POSTER} alt="FREE Odia AI Bootcamp intro video" loading="eager" decoding="async" className="block aspect-video w-full object-cover" />
+            <span className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full bg-white/95 px-5 py-3 text-[13px] font-extrabold text-[#0f1424] shadow-xl"><Volume2 size={18} className="text-[var(--orange)]" /> Watch with sound</span>
+          </div>
         )}
       </div>
       <div className="relative mt-3 flex flex-wrap items-center justify-between gap-2">
@@ -178,7 +166,7 @@ export default function App() {
 
       <main className="bg-[var(--surface)]">
         {/* 2 LEARN */}
-        <section data-track-area="learn" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+        <section data-track-area="learn" id="learn" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 sm:py-16">
           <SectionHead kicker="What you will learn" title={<>Tume kana kana <span className="text-[#ff6b1a]">sikhiba?</span></>} sub="Bhaya nahi. Sabu sarala Odia + English re, ekathi ekathi, udaharan sahita." />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {learn.map((c) => <article key={c.title} className="rounded-[1.4rem] border border-[var(--line)] bg-[var(--card)] p-5 glow-card"><div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#fff0d5] text-[#e35d00]"><c.icon size={22} /></div><h3 className="font-display mt-4 text-[19px] font-extrabold leading-6 text-[var(--ink)]">{c.title}</h3><p className="mt-1.5 text-[14px] leading-6 text-[var(--muted)]">{c.text}</p></article>)}
@@ -193,7 +181,7 @@ export default function App() {
         <section data-track-area="dream" className="mx-auto max-w-6xl px-4 pb-12 sm:px-6"><div className="grid items-center gap-6 overflow-hidden rounded-[1.8rem] bg-gradient-to-br from-[#ffb400] to-[#ff6b1a] p-5 text-[#221300] sm:p-8 md:grid-cols-[.9fr_1.1fr]"><img src={dreamImg} loading="lazy" alt="Girl thinking about her AI dream and future app idea" className="aspect-[16/10] w-full rounded-[1.2rem] object-cover shadow-lg" /><div><p className="text-xs font-extrabold tracking-[0.18em]">TUMARA SWAPNA • YOUR DREAM</p><h3 className="font-display mt-2 text-[clamp(1.7rem,7vw,2.6rem)] leading-[1.05] font-extrabold">Swapna dekhila?<br />Ebe tiare kariba.</h3><p className="mt-3 text-[15px] leading-6 font-medium">Bada app banheba pain bada degree darkar nahi. Darkar — thik guide, thik tool, au gote chhota first step.</p><a href={FORM} target="_blank" rel="noopener" className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#0f1424] px-5 py-3 text-sm font-extrabold text-white">Take first step — FREE <ArrowRight size={17} /></a></div></div></section>
 
         {/* 3 AI TOOLS TO APP */}
-        <section data-track-area="ai_tools" className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 sm:pb-20">
+        <section data-track-area="ai_tools" id="tools" className="mx-auto max-w-6xl scroll-mt-24 px-4 pb-14 sm:px-6 sm:pb-20">
           <SectionHead kicker="AI Tools to App" title={<>AI Tools ru Mobile App,<br />Game, Website <span className="text-[#e35d00]">Sabu Baniba.</span></>} sub="Idea manare achi? AI sehi idea ku design, voice, music, video au app re badalei deba." />
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             <img src={imagineImg} loading="lazy" alt="ImagineAI app screens showing AI tools turned into a mobile app" className="aspect-[4/3] w-full rounded-[1.4rem] object-cover shadow-lg" />
@@ -213,13 +201,13 @@ export default function App() {
         <BuildGallery />
 
         {/* 4 SHOWCASE */}
-        <section data-track-area="showcase" className="bg-[#0b1020] py-14 text-white sm:py-20"><div className="mx-auto max-w-6xl px-4 sm:px-6"><div className="mx-auto max-w-2xl text-center"><span className="rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-extrabold tracking-[0.14em] text-amber-300">SHOWCASE</span><h2 className="font-display mt-4 text-[clamp(1.9rem,7vw,3rem)] leading-[1.05] font-extrabold">Emiti app tume <span className="text-amber-300">sikhiba.</span></h2><p className="mt-3 text-white/70">Real apps. Real idea. Workshop re tume ei bhali app banheba ra rasta dekhiba.</p></div>
+        <section data-track-area="showcase" id="showcase" className="bg-[#0b1020] py-14 text-white sm:py-20 scroll-mt-24"><div className="mx-auto max-w-6xl px-4 sm:px-6"><div className="mx-auto max-w-2xl text-center"><span className="rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-extrabold tracking-[0.14em] text-amber-300">SHOWCASE</span><h2 className="font-display mt-4 text-[clamp(1.9rem,7vw,3rem)] leading-[1.05] font-extrabold">Emiti app tume <span className="text-amber-300">sikhiba.</span></h2><p className="mt-3 text-white/70">Real apps. Real idea. Workshop re tume ei bhali app banheba ra rasta dekhiba.</p></div>
           <div className="mt-8 grid gap-4 md:grid-cols-3">{showcase.map(s => <article key={s.name} className="overflow-hidden rounded-[1.5rem] bg-white text-[#0f1424] shadow-2xl"><img src={s.img} alt={s.alt} loading="lazy" className="aspect-[16/10] w-full object-cover" /><div className="p-5"><span className="rounded-full bg-[#fff0d5] px-3 py-1 text-[11px] font-extrabold text-[#9a4a00]">{s.tag}</span><h3 className="font-display mt-3 flex items-center gap-2 text-[24px] font-extrabold"><img src={s.logo} alt="" className="h-8 w-8 rounded-lg bg-[#0b1020] object-cover" />{s.name}</h3><p className="mt-1 text-[14px] leading-6 text-slate-600">{s.desc}</p><a href={s.link} target="_blank" rel="noopener" className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#0f1424] px-4 py-3 text-sm font-extrabold text-white"> {s.label} <ArrowUpRight size={17} /></a></div></article>)}</div>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-center text-[13px] text-white/70"><span>AI → App</span><span className="text-amber-300">•</span><span>AI → Website</span><span className="text-amber-300">•</span><span>AI → Game</span><span className="text-amber-300">•</span><span>AI → Audio + Video</span></div>
         </div></section>
 
         {/* 5 MENTOR */}
-        <section data-track-area="mentor" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16"><div className="grid items-center gap-7 overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-[var(--card)] p-5 sm:p-8 lg:grid-cols-[.85fr_1.15fr]"><div className="relative"><img src={mentorImg} alt="Chandrakanta Behera, mentor of the FREE Odia AI Bootcamp" loading="lazy" className="aspect-square w-full rounded-[1.4rem] object-cover lg:aspect-[4/4.2]" /><div className="absolute -bottom-3 left-4 rounded-2xl bg-white px-4 py-3 shadow-xl"><p className="text-[11px] font-extrabold tracking-wider text-orange-600">YOUR GUIDE</p><p className="font-display text-lg font-extrabold text-[#0f1424]">Odia re, step by step</p></div></div><div><span className="rounded-full bg-[#fff1e6] px-3 py-1.5 text-xs font-extrabold text-[#e35d00]">YOUR MENTOR</span><h2 className="font-display mt-4 text-[clamp(1.8rem,7vw,2.8rem)] leading-[1.05] font-extrabold text-[var(--ink)]">Chandrakanta Behera</h2><p className="mt-3 text-[15px] leading-7 text-[var(--muted)]">Builder of <b className="text-[var(--ink)]">Kathaa, NexoPlayer, CodeBitByBit.</b> Teaches in Odia + English, step by step. Kothin katha ku sarala kariba — sei hi aama style.</p><div className="mt-5 grid gap-2 sm:grid-cols-3">{[["Kathaa", "History Audio OTT", KATHAA], ["NexoPlayer", "Audio + Media Hub", NEXO], ["CodeBitByBit", "Learn • Build • Launch", BRAND]].map(([a, b, href]) => <a key={a} href={href} target="_blank" rel="noopener" className="rounded-2xl bg-[var(--surface)] p-3 transition hover:-translate-y-0.5"><p className="font-display flex items-center gap-1 font-extrabold text-[var(--ink)]">{a}<ArrowUpRight size={14} /></p><p className="text-xs text-[var(--muted)]">{b}</p></a>)}</div><a href={PROFILE} target="_blank" rel="noopener" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0f1424] px-5 py-3.5 text-sm font-extrabold text-white">View Profile <ArrowUpRight size={17} /></a></div></div></section>
+        <section data-track-area="mentor" id="mentor" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 sm:py-16"><div className="grid items-center gap-7 overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-[var(--card)] p-5 sm:p-8 lg:grid-cols-[.85fr_1.15fr]"><div className="relative"><img src={mentorImg} alt="Chandrakanta Behera, mentor of the FREE Odia AI Bootcamp" loading="lazy" className="aspect-square w-full rounded-[1.4rem] object-cover lg:aspect-[4/4.2]" /><div className="absolute -bottom-3 left-4 rounded-2xl bg-white px-4 py-3 shadow-xl"><p className="text-[11px] font-extrabold tracking-wider text-orange-600">YOUR GUIDE</p><p className="font-display text-lg font-extrabold text-[#0f1424]">Odia re, step by step</p></div></div><div><span className="rounded-full bg-[#fff1e6] px-3 py-1.5 text-xs font-extrabold text-[#e35d00]">YOUR MENTOR</span><h2 className="font-display mt-4 text-[clamp(1.8rem,7vw,2.8rem)] leading-[1.05] font-extrabold text-[var(--ink)]">Chandrakanta Behera</h2><p className="mt-3 text-[15px] leading-7 text-[var(--muted)]">Builder of <b className="text-[var(--ink)]">Kathaa, NexoPlayer, CodeBitByBit.</b> Teaches in Odia + English, step by step. Kothin katha ku sarala kariba — sei hi aama style.</p><div className="mt-5 grid gap-2 sm:grid-cols-3">{[["Kathaa", "History Audio OTT", KATHAA], ["NexoPlayer", "Audio + Media Hub", NEXO], ["CodeBitByBit", "Learn • Build • Launch", BRAND]].map(([a, b, href]) => <a key={a} href={href} target="_blank" rel="noopener" className="rounded-2xl bg-[var(--surface)] p-3 transition hover:-translate-y-0.5"><p className="font-display flex items-center gap-1 font-extrabold text-[var(--ink)]">{a}<ArrowUpRight size={14} /></p><p className="text-xs text-[var(--muted)]">{b}</p></a>)}</div><a href={PROFILE} target="_blank" rel="noopener" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0f1424] px-5 py-3.5 text-sm font-extrabold text-white">View Profile <ArrowUpRight size={17} /></a></div></div></section>
 
         {/* 6 JOIN */}
         <section data-track-area="join" id="join" className="mx-auto max-w-6xl scroll-mt-24 px-4 pb-12 sm:px-6 sm:pb-16">
@@ -240,7 +228,7 @@ export default function App() {
         <section data-track-area="qissa_pack" className="mx-auto max-w-4xl px-4 pb-12 sm:px-6 sm:pb-16"><div className="rounded-[1.4rem] border-2 border-amber-300 bg-[#fffdf5] p-5 sm:p-6"><div className="flex flex-wrap items-center justify-between gap-3"><span className="rounded-full bg-amber-100 px-3 py-1.5 text-[11px] font-extrabold tracking-wider text-amber-900">OPTIONAL — SECONDARY</span><span className="text-xs font-bold text-slate-500">Not the main workshop</span></div><div className="mt-4 grid gap-5 sm:grid-cols-[1fr_1.15fr]"><img src={qissaImg} loading="lazy" alt="QISSA app screens included in optional source code pack" className="aspect-[16/10] w-full rounded-2xl object-cover" /><div><h3 className="font-display text-[clamp(1.35rem,6vw,1.9rem)] leading-tight font-extrabold text-[#221300]">Want QISSA App Source Code + Asset Pack? <span className="text-[#e35d00]">₹499</span></h3><ul className="mt-3 space-y-2 text-[13.5px] leading-5 text-slate-700">{["QISSA mobile application source code", "Complete UI screens and layouts", "Application graphics and asset pack", "Onboarding, Home, Explore and Video Player screens", "Rewards, Premium and Profile interfaces"].map(x => <li key={x} className="flex gap-2"><span className="tick !h-5 !w-5 text-[12px]">✓</span><span>{x}</span></li>)}</ul><a href={PAY} target="_blank" rel="noopener" className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-extrabold text-[#0f1424] shadow-md ring-1 ring-amber-300">Buy QISSA Pack ₹499 <ArrowUpRight size={16} /></a></div></div><p className="mt-4 border-t border-amber-200 pt-3 text-[11.5px] leading-5 text-slate-500">Workshop is FREE. This pack is completely optional. Delivery within 7 business days after workshop. Personal student-use license. You can modify and monetise your own app. Reselling original source not allowed. Digital purchase non-refundable, subject to applicable consumer rights. Learning proof-of-concept, not full production OTT.</p></div></section>
 
         {/* 8 STAY CONNECTED */}
-        <section data-track-area="stay_connected" className="mx-auto max-w-6xl px-4 pb-14 sm:px-6"><div className="relative grid items-center gap-4 overflow-hidden rounded-[1.8rem] bg-gradient-to-br from-[#0b1020] via-[#1a2036] to-[#7a2e08] p-6 text-center text-white sm:p-10 md:grid-cols-[1fr_260px] md:text-left"><div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#ff6b1a]/30 blur-3xl" /><img src={girlImg} alt="Student building an app with AI on a laptop" loading="lazy" width={512} height={512} className="relative order-first mx-auto h-44 w-44 object-contain drop-shadow-2xl sm:h-56 sm:w-56 md:order-last md:h-64 md:w-64" /><div className="relative"><h2 className="font-display mx-auto mt-0 md:mx-0 max-w-2xl text-[clamp(1.8rem,7vw,2.9rem)] leading-[1.05] font-extrabold">Miss kariba nahi.<br />Connected ruha.</h2><p className="mx-auto mt-3 max-w-xl text-[15px] leading-6 text-white/85 md:mx-0">Join channel + group so you don't miss upcoming workshop where we build app like QISSA live. Update, link, doubt — sabu ekathi.</p><div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:justify-start"><a href={CHANNEL} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-4 text-[15px] font-extrabold text-[#0b7a3c]"><MessageCircle size={19} /> Join WhatsApp Channel</a><a href={GROUP} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#18a34a] px-6 py-4 text-[15px] font-extrabold text-white"><Users size={19} /> Join WhatsApp Group</a></div><p className="mt-5 text-[13px] text-white/70">Pahile form bhara, tapare channel + group re join kara — sabu khabar paiba.</p></div></div></section>
+        <section data-track-area="stay_connected" id="community" className="mx-auto max-w-6xl scroll-mt-24 px-4 pb-14 sm:px-6"><div className="relative grid items-center gap-4 overflow-hidden rounded-[1.8rem] bg-gradient-to-br from-[#0b1020] via-[#1a2036] to-[#7a2e08] p-6 text-center text-white sm:p-10 md:grid-cols-[1fr_260px] md:text-left"><div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#ff6b1a]/30 blur-3xl" /><img src={girlImg} alt="Student building an app with AI on a laptop" loading="lazy" width={512} height={512} className="relative order-first mx-auto h-44 w-44 object-contain drop-shadow-2xl sm:h-56 sm:w-56 md:order-last md:h-64 md:w-64" /><div className="relative"><h2 className="font-display mx-auto mt-0 md:mx-0 max-w-2xl text-[clamp(1.8rem,7vw,2.9rem)] leading-[1.05] font-extrabold">Miss kariba nahi.<br />Connected ruha.</h2><p className="mx-auto mt-3 max-w-xl text-[15px] leading-6 text-white/85 md:mx-0">Join channel + group so you don't miss upcoming workshop where we build app like QISSA live. Update, link, doubt — sabu ekathi.</p><div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:justify-start"><a href={CHANNEL} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-4 text-[15px] font-extrabold text-[#0b7a3c]"><MessageCircle size={19} /> Join WhatsApp Channel</a><a href={GROUP} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#18a34a] px-6 py-4 text-[15px] font-extrabold text-white"><Users size={19} /> Join WhatsApp Group</a></div><p className="mt-5 text-[13px] text-white/70">Pahile form bhara, tapare channel + group re join kara — sabu khabar paiba.</p></div></div></section>
       </main>
 
       {/* 9 FOOTER */}
