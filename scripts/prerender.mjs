@@ -3,7 +3,12 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const SITE = "https://campaign.codebitbybit.com";
+const SITE = (process.env.SITE_URL || "https://campaign.codebitbybit.com").replace(/\/+$/, "");
+const SAME_AS = [
+  "https://codebitbybit.com/",
+  "https://odia-courses.codebitbybit.com/",
+  "https://campaign.codebitbybit.com/",
+];
 
 const BOOTCAMP = {
   title: "FREE Odia AI Bootcamp — Learn AI, Build App, Make Game | CodeBitByBit",
@@ -16,7 +21,7 @@ const BOOTCAMP = {
     url: `${SITE}/free-odia-ai-bootcamp`,
     inLanguage: ["or", "en"],
     isAccessibleForFree: true,
-    provider: { "@type": "Organization", name: "CodeBitByBit", sameAs: "https://codebitbybit.com/" },
+    provider: { "@type": "Organization", name: "CodeBitByBit", sameAs: SAME_AS },
     offers: { "@type": "Offer", price: "0", priceCurrency: "INR", category: "Free", availability: "https://schema.org/InStock" },
   },
 };
@@ -33,10 +38,27 @@ const routes = [
       "@type": "WebSite",
       name: "CodeBitByBit",
       url: `${SITE}/`,
-      publisher: { "@type": "Organization", name: "CodeBitByBit", sameAs: "https://codebitbybit.com/" },
+      publisher: { "@type": "Organization", name: "CodeBitByBit", sameAs: SAME_AS },
     },
   },
   { path: "/free-odia-ai-bootcamp", out: "free-odia-ai-bootcamp/index.html", ...BOOTCAMP, url: `${SITE}/free-odia-ai-bootcamp` },
+  {
+    path: "/full-stack-ai-bootcamp",
+    out: "full-stack-ai-bootcamp/index.html",
+    title: "Full Stack AI App Developer Bootcamp (₹999) | CodeBitByBit",
+    desc: "1 Month Live Online Bootcamp in Odia + English. Design, build, launch & monetise 3–4 real apps with AI. Includes NexoPlayer, Kathaa & StoryVerse source code bundle.",
+    url: `${SITE}/full-stack-ai-bootcamp`,
+    ld: {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      name: "Full Stack AI App Developer Bootcamp",
+      description: "1 Month Live Online Bootcamp in Odia + English. Design, build, launch & monetise 3–4 real apps with AI.",
+      url: `${SITE}/full-stack-ai-bootcamp`,
+      inLanguage: ["or", "en"],
+      provider: { "@type": "Organization", name: "CodeBitByBit", sameAs: SAME_AS },
+      offers: { "@type": "Offer", price: "999", priceCurrency: "INR", availability: "https://schema.org/InStock" },
+    },
+  },
 ];
 
 function setMeta(html, { title, desc, url, ld }) {

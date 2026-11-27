@@ -43,3 +43,8 @@ body {
   --media-accent-color: #ff6b1a;
   --media-border-radius: 1.4rem;
 }
+.plyr-brand-wrap {
+  --plyr-color-main: #ff6b1a;
+  --plyr-video-background: #000000;
+  --plyr-border-radius: 1.4rem;
+}

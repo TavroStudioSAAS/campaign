@@ -25,7 +25,9 @@ import pathImg from "./assets/img/learning-path.webp";
 import vlogImg from "./assets/img/vlog-editor.webp";
 import shringarImg from "./assets/img/shringar.webp";
 import { track } from "./tracking";
-import { ArrowRight, ArrowUpRight, BadgeCheck, Brain, Check, ChevronRight, Gamepad2, Globe, MessageCircle, Mic, Music, Smartphone, Sparkles, Star, Users, Video, Volume2 } from "lucide-react";
+import PlyrYoutubePlayer from "./PlyrYoutubePlayer";
+import { FULLSTACK_PATH } from "./routes";
+import { ArrowRight, ArrowUpRight, BadgeCheck, Brain, Check, ChevronRight, Gamepad2, Globe, MessageCircle, Mic, Music, Play, Smartphone, Sparkles, Star, Users, Video, Volume2 } from "lucide-react";
 
 const VIDEO = `${import.meta.env.BASE_URL}media/bootcamp-intro.mp4`;
 const POSTER = `${import.meta.env.BASE_URL}media/bootcamp-intro-poster.jpg`;
@@ -33,6 +35,8 @@ const FORM = "https://forms.gle/6Nis15gEsEm7nnWu7";
 const CHANNEL = "https://whatsapp.com/channel/0029VbDnzsqHrDZpCa9z473T";
 const GROUP = "https://chat.whatsapp.com/DKlZz84PfZeGFtBIreYzbP";
 const PAY = "https://rzp.io/rzp/FHmmch5";
+const PAID_BOOTCAMP_CHECKOUT = "https://rzp.io/rzp/gi2dk7aW";
+const YT_WORKSHOP_ID = "yCNGgr1f63U";
 const PROFILE = "https://chandrakantabehera.dev/";
 const NEXO = "https://nexoplayer.chandrakantabehera.dev/";
 const KATHAA = "https://kathaa.app/";
@@ -122,6 +126,14 @@ function FeaturedVideo() {
         <span className="rounded-2xl bg-white px-3 py-2 text-[#0f1424] shadow-xl"><span className="block text-[11px] font-extrabold tracking-wider text-orange-600">NO CODING NEEDED</span><span className="font-display block text-[15px] font-extrabold leading-4">Phone ru arambha kara</span></span>
         <span className="flex items-center gap-2 rounded-2xl bg-[#0b1020]/90 px-3 py-2 text-white shadow-xl ring-1 ring-white/15"><Gamepad2 className="text-amber-300" size={20} /><span className="leading-tight"><span className="block text-[11px] text-white/70">Learn • Build • Launch</span><span className="block text-[13px] font-extrabold">App + Game + Website</span></span></span>
       </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <a href="#watch-free-workshop" className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-amber-300/50 bg-amber-300/15 px-4 py-2.5 text-xs font-extrabold text-amber-200 transition hover:bg-amber-300/25">
+          <Play size={14} className="fill-current" /> Watch Free Workshop Video
+        </a>
+        <a href={FULLSTACK_PATH} className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-amber-300 px-4 py-2.5 text-xs font-extrabold text-[#211500] shadow-md transition hover:-translate-y-0.5">
+          Paid Bootcamp ₹999 <ArrowRight size={14} />
+        </a>
+      </div>
     </div>
   );
 }
@@ -139,7 +151,7 @@ export default function BootcampPage() {
             <img src={logo} alt="CodeBitByBit logo" width="36" height="36" className="h-9 w-9 rounded-xl object-cover" />
             <span className="leading-none"><span className="font-display block text-[18px] font-extrabold tracking-tight text-white">CodeBitByBit</span><span className="block text-[10px] font-bold tracking-[0.18em] text-amber-300">LEARN • BUILD • LAUNCH</span></span>
           </a>
-          <div className="flex items-center gap-2"><span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-400/15 px-3 py-1.5 text-xs font-bold text-emerald-300"><span className="h-2 w-2 rounded-full bg-emerald-400" />100% FREE</span><a href={FORM} target="_blank" rel="noopener" className="rounded-full bg-white px-4 py-2 text-[13px] font-extrabold text-[#0b1020]">Join FREE</a></div>
+          <div className="flex items-center gap-2"><span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-400/15 px-3 py-1.5 text-xs font-bold text-emerald-300"><span className="h-2 w-2 rounded-full bg-emerald-400" />100% FREE</span><a href={FULLSTACK_PATH} className="hidden sm:inline-flex rounded-full border border-amber-300/40 px-3 py-1.5 text-xs font-bold text-amber-300 hover:bg-white/10">Paid Bootcamp ₹999</a><a href={FORM} target="_blank" rel="noopener" className="rounded-full bg-white px-4 py-2 text-[13px] font-extrabold text-[#0b1020]">Join FREE</a></div>
         </div>
       </header>
 
@@ -165,6 +177,29 @@ export default function BootcampPage() {
       </section>
 
       <main className="bg-[var(--surface)]">
+        {/* WATCH FREE WORKSHOP (PLYR YOUTUBE) */}
+        <section data-track-area="watch_free_workshop" id="watch-free-workshop" className="mx-auto max-w-5xl scroll-mt-24 px-4 pt-12 sm:px-6 sm:pt-16">
+          <SectionHead kicker="Watch the Free Workshop • Odia" title={<>Watch making apps with AI <span className="text-[#ff6b1a]">in Odia — FREE</span></>} sub="Pura free workshop video dekha — au jadi 1-month live Full Stack AI Bootcamp join karibaku chahucha, tale enroll kara." />
+          <div className="mt-7 rounded-[1.8rem] border border-[var(--line)] bg-[#0b1020] p-3 shadow-2xl sm:p-5">
+            <PlyrYoutubePlayer videoId={YT_WORKSHOP_ID} title="Watch Free Odia AI Workshop" />
+            <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-2xl bg-white/5 p-4 text-white sm:flex-row">
+              <div className="text-center sm:text-left">
+                <p className="font-display text-lg font-extrabold text-amber-300">Want the 1-Month Full Stack AI Bootcamp? (₹999)</p>
+                <p className="text-xs text-white/75">Build 3–4 real apps + NexoPlayer, Kathaa & StoryVerse bundle. Details sent to your email after payment verification.</p>
+              </div>
+              <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+                <a href={PAID_BOOTCAMP_CHECKOUT} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] px-5 py-3 text-sm font-extrabold text-white glow-orange transition hover:-translate-y-0.5">Enroll in Paid Bootcamp ₹999 <ArrowRight size={16} /></a>
+                <a href={FULLSTACK_PATH} className="inline-flex items-center justify-center gap-1.5 rounded-full border border-white/25 px-4 py-3 text-sm font-bold text-white hover:bg-white/10">View Course Page</a>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            <WhatsAppBtn href={CHANNEL} label="Join WhatsApp Channel" dark />
+            <WhatsAppBtn href={GROUP} label="Join WhatsApp Group" />
+            <PrimaryCta label="Fill Free Form" />
+          </div>
+        </section>
+
         {/* 2 LEARN */}
         <section data-track-area="learn" id="learn" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 sm:py-16">
           <SectionHead kicker="What you will learn" title={<>Tume kana kana <span className="text-[#ff6b1a]">sikhiba?</span></>} sub="Bhaya nahi. Sabu sarala Odia + English re, ekathi ekathi, udaharan sahita." />
