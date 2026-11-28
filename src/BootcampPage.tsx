@@ -35,7 +35,6 @@ const FORM = "https://forms.gle/6Nis15gEsEm7nnWu7";
 const CHANNEL = "https://whatsapp.com/channel/0029VbDnzsqHrDZpCa9z473T";
 const FB = "https://www.facebook.com/AIinOdia";
 const PAY = "https://rzp.io/rzp/FHmmch5";
-const PAID_BOOTCAMP_CHECKOUT = "https://rzp.io/rzp/gi2dk7aW";
 const YT_WORKSHOP_ID = "yCNGgr1f63U";
 const PROFILE = "https://chandrakantabehera.dev/";
 const NEXO = "https://nexoplayer.chandrakantabehera.dev/";
@@ -126,14 +125,6 @@ function FeaturedVideo() {
         <span className="rounded-2xl bg-white px-3 py-2 text-[#0f1424] shadow-xl"><span className="block text-[11px] font-extrabold tracking-wider text-orange-600">NO CODING NEEDED</span><span className="font-display block text-[15px] font-extrabold leading-4">Phone ru arambha kara</span></span>
         <span className="flex items-center gap-2 rounded-2xl bg-[#0b1020]/90 px-3 py-2 text-white shadow-xl ring-1 ring-white/15"><Gamepad2 className="text-amber-300" size={20} /><span className="leading-tight"><span className="block text-[11px] text-white/70">Learn • Build • Launch</span><span className="block text-[13px] font-extrabold">App + Game + Website</span></span></span>
       </div>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <a href="#watch-free-workshop" className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-amber-300/50 bg-amber-300/15 px-4 py-2.5 text-xs font-extrabold text-amber-200 transition hover:bg-amber-300/25">
-          <Play size={14} className="fill-current" /> Watch Free Workshop Video
-        </a>
-        <a href={FULLSTACK_PATH} className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-amber-300 px-4 py-2.5 text-xs font-extrabold text-[#211500] shadow-md transition hover:-translate-y-0.5">
-          Paid Bootcamp ₹999 <ArrowRight size={14} />
-        </a>
-      </div>
     </div>
   );
 }
@@ -151,7 +142,7 @@ export default function BootcampPage() {
             <img src={logo} alt="CodeBitByBit logo" width="36" height="36" className="h-9 w-9 rounded-xl object-cover" />
             <span className="leading-none"><span className="font-display block text-[18px] font-extrabold tracking-tight text-white">CodeBitByBit</span><span className="block text-[10px] font-bold tracking-[0.18em] text-amber-300">LEARN • BUILD • LAUNCH</span></span>
           </a>
-          <div className="flex items-center gap-2"><span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-400/15 px-3 py-1.5 text-xs font-bold text-emerald-300"><span className="h-2 w-2 rounded-full bg-emerald-400" />100% FREE</span><a href={FULLSTACK_PATH} className="hidden sm:inline-flex rounded-full border border-amber-300/40 px-3 py-1.5 text-xs font-bold text-amber-300 hover:bg-white/10">Paid Bootcamp ₹999</a><a href={FORM} target="_blank" rel="noopener" className="rounded-full bg-white px-4 py-2 text-[13px] font-extrabold text-[#0b1020]">Join FREE</a></div>
+          <div className="flex items-center gap-2"><span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-400/15 px-3 py-1.5 text-xs font-bold text-emerald-300"><span className="h-2 w-2 rounded-full bg-emerald-400" />100% FREE</span><a href={FULLSTACK_PATH} className="hidden sm:inline-flex rounded-full border border-amber-300/40 px-3 py-1.5 text-xs font-bold text-amber-300 hover:bg-white/10">Paid Bootcamp ₹999</a><a href="#watch-free-workshop" className="rounded-full bg-white px-4 py-2 text-[13px] font-extrabold text-[#0b1020]">Watch Free</a></div>
         </div>
       </header>
 
@@ -164,8 +155,11 @@ export default function BootcampPage() {
               <h1 className="font-display mt-5 text-[clamp(2.35rem,10vw,4.55rem)] leading-[0.98] font-extrabold text-balance">Odia re <span className="text-amber-300">AI Sikha,</span><br />Nije App Banaha!</h1>
               <p className="mt-4 text-[17px] leading-7 text-white/85 max-w-xl">FREE AI Bootcamp — Learn AI. Build App. Make Game. In Odia. <span className="font-odia text-white">Tumara idea, AI sahajya re, bastaba app heba.</span></p>
               <div className="mt-5 flex flex-wrap gap-2">{pills.map(p => <span key={p} className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-[13px] font-bold"><Check size={15} className="text-amber-300" />{p}</span>)}</div>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap"><PrimaryCta className="w-full sm:w-auto" /><WhatsAppBtn href={CHANNEL} label="Join WhatsApp Channel" /><a href={FB} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1877f2] px-5 py-3.5 text-[15px] font-extrabold text-white transition hover:-translate-y-0.5">Join FB Page <ArrowUpRight size={18} /></a></div>
-              <div className="mt-5 flex items-start gap-2 text-[13px] leading-5 text-white/80"><BadgeCheck className="mt-0.5 shrink-0 text-emerald-300" size={18} /><span><b className="text-white">100% FREE Workshop.</b> No coding needed. Phone is enough to start. Step by step, Odia re bujhiba.</span></div>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <a href="#watch-free-workshop" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--orange)] px-6 py-4 text-[15px] font-extrabold text-white glow-orange transition hover:-translate-y-0.5 sm:w-auto"><Play size={18} className="fill-current" /> Watch Free Workshop</a>
+                <WhatsAppBtn href={CHANNEL} label="Join WhatsApp Channel" />
+              </div>
+              <div className="mt-5 flex items-start gap-2 text-[13px] leading-5 text-white/80"><BadgeCheck className="mt-0.5 shrink-0 text-emerald-300" size={18} /><span><b className="text-white">Instant FREE Access.</b> No coding needed. Phone is enough to start. Step by step, Odia re bujhiba.</span></div>
               <div className="mt-6 flex items-center gap-3"><div className="flex -space-x-2"><span className="grid h-9 w-9 place-items-center rounded-full border-2 border-[#232a44] bg-amber-300 text-xs font-extrabold text-black">AI</span><span className="grid h-9 w-9 place-items-center rounded-full border-2 border-[#232a44] bg-orange-500 text-xs font-extrabold">OD</span><span className="grid h-9 w-9 place-items-center rounded-full border-2 border-[#232a44] bg-[#ff6b1a] text-xs font-extrabold">BB</span></div><p className="text-[13px] leading-4 text-white/75">Beginner mananka pain<br /><b className="text-white">tiare heichi bootcamp.</b></p></div>
             </div>
             <div className="order-1 lg:order-2">
@@ -182,21 +176,14 @@ export default function BootcampPage() {
           <SectionHead kicker="Watch the Free Workshop • Odia" title={<>Watch making apps with AI <span className="text-[#ff6b1a]">in Odia — FREE</span></>} sub="Pura free workshop video dekha — au jadi 1-month live Full Stack AI Bootcamp join karibaku chahucha, tale enroll kara." />
           <div className="mt-7 rounded-[1.8rem] border border-[var(--line)] bg-[#0b1020] p-3 shadow-2xl sm:p-5">
             <PlyrYoutubePlayer videoId={YT_WORKSHOP_ID} title="Watch Free Odia AI Workshop" />
-            <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-2xl bg-white/5 p-4 text-white sm:flex-row">
+            <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-2xl border border-amber-300/20 bg-white/5 p-4 text-white sm:flex-row sm:p-5">
               <div className="text-center sm:text-left">
-                <p className="font-display text-lg font-extrabold text-amber-300">Want the 1-Month Full Stack AI Bootcamp? (₹999)</p>
-                <p className="text-xs text-white/75">Build 3–4 real apps + NexoPlayer, Kathaa & StoryVerse bundle. Details sent to your email after payment verification.</p>
+                <span className="inline-block rounded-full bg-amber-300/15 px-2.5 py-0.5 text-[11px] font-extrabold tracking-wider text-amber-300 uppercase">Next Step • Paid Bootcamp</span>
+                <p className="font-display mt-1.5 text-lg font-extrabold text-white">Become a Full Stack AI App Developer — <span className="text-amber-300">₹999</span></p>
+                <p className="mt-0.5 text-xs text-white/75">1-month live bootcamp: build &amp; launch 3–4 real mobile apps + get NexoPlayer, Kathaa &amp; StoryVerse source code.</p>
               </div>
-              <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-                <a href={PAID_BOOTCAMP_CHECKOUT} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] px-5 py-3 text-sm font-extrabold text-white glow-orange transition hover:-translate-y-0.5">Enroll in Paid Bootcamp ₹999 <ArrowRight size={16} /></a>
-                <a href={FULLSTACK_PATH} className="inline-flex items-center justify-center gap-1.5 rounded-full border border-white/25 px-4 py-3 text-sm font-bold text-white hover:bg-white/10">View Course Page</a>
-              </div>
+              <a href={FULLSTACK_PATH} className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-amber-300 px-5 py-3 text-sm font-extrabold text-[#211500] shadow-md transition hover:-translate-y-0.5 sm:w-auto">Explore Paid Bootcamp ₹999 <ArrowRight size={16} /></a>
             </div>
-          </div>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-            <WhatsAppBtn href={CHANNEL} label="Join WhatsApp Channel" dark />
-            <a href={FB} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1877f2] px-5 py-3.5 text-[15px] font-extrabold text-white transition hover:-translate-y-0.5">Join FB Page <ArrowUpRight size={18} /></a>
-            <PrimaryCta label="Fill Free Form" />
           </div>
         </section>
 
@@ -271,8 +258,8 @@ export default function BootcampPage() {
 
       {/* STICKY MOBILE CTA */}
       <div data-track-area="sticky_mobile_cta" className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#0b1020]/95 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur sm:hidden">
-        <div className="flex gap-2"><a href={FORM} target="_blank" rel="noopener" className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#ff6b1a] px-4 py-3.5 text-[15px] font-extrabold text-white">Fill Form — FREE <ArrowRight size={18} /></a><a href={CHANNEL} target="_blank" rel="noopener" aria-label="Join WhatsApp Channel" className="grid w-12 place-items-center rounded-full bg-[#18a34a] text-white"><MessageCircle size={22} /></a></div>
-        <p className="mt-1.5 text-center text-[11px] font-semibold text-white/60">100% FREE • No coding needed • Channel + Group for updates</p>
+        <div className="flex gap-2"><a href="#watch-free-workshop" className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#ff6b1a] px-4 py-3.5 text-[15px] font-extrabold text-white"><Play size={18} className="fill-current" /> Watch Free Workshop</a><a href={CHANNEL} target="_blank" rel="noopener" aria-label="Join WhatsApp Channel" className="grid w-12 place-items-center rounded-full bg-[#18a34a] text-white"><MessageCircle size={22} /></a></div>
+        <p className="mt-1.5 text-center text-[11px] font-semibold text-white/60">100% FREE • Instant access • Join WhatsApp for updates</p>
       </div>
     </div>
   );
