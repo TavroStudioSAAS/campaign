@@ -42,6 +42,7 @@ const routes = [
     },
   },
   { path: "/free-odia-ai-bootcamp", out: "free-odia-ai-bootcamp/index.html", ...BOOTCAMP, url: `${SITE}/free-odia-ai-bootcamp` },
+  { path: "/free-odia-ai-bootcamp/watch", out: "free-odia-ai-bootcamp/watch/index.html", ...BOOTCAMP, url: `${SITE}/free-odia-ai-bootcamp` },
   {
     path: "/full-stack-ai-bootcamp",
     out: "full-stack-ai-bootcamp/index.html",
@@ -77,6 +78,9 @@ const { render } = await import(pathToFileURL(join(root, "dist-ssr/entry-server.
 const template = readFileSync(join(root, "dist/index.html"), "utf8");
 const marker = '<div id="root"></div>';
 if (!template.includes(marker)) throw new Error("root marker not found in dist/index.html");
+
+writeFileSync(join(root, "dist/404.html"), template);
+console.log("Generated dist/404.html SPA fallback");
 
 for (const route of routes) {
   const appHtml = render(route.path);

@@ -26,7 +26,7 @@ import vlogImg from "./assets/img/vlog-editor.webp";
 import shringarImg from "./assets/img/shringar.webp";
 import { track } from "./tracking";
 import PlyrYoutubePlayer from "./PlyrYoutubePlayer";
-import { FULLSTACK_PATH } from "./routes";
+import { BOOTCAMP_WATCH_PATH, FULLSTACK_PATH } from "./routes";
 import { ArrowRight, ArrowUpRight, BadgeCheck, Brain, Check, ChevronRight, Gamepad2, Globe, MessageCircle, Mic, Music, Play, Smartphone, Sparkles, Star, Users, Video, Volume2 } from "lucide-react";
 
 const VIDEO = `${import.meta.env.BASE_URL}media/bootcamp-intro.mp4`;
@@ -133,6 +133,13 @@ function SectionHead({ kicker, title, sub }: { kicker: string; title: React.Reac
 }
 
 export default function BootcampPage() {
+  useEffect(() => {
+    const path = window.location.pathname.replace(/\/+$/, "");
+    if (path === BOOTCAMP_WATCH_PATH && !window.location.hash) {
+      document.getElementById("watch-free-workshop")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   return (
     <div data-safe-area-inset-root style={{ boxSizing: "border-box", paddingTop: "var(--safe-area-inset-top)", minHeight: "100vh", background: "#0b1020" }} className="overflow-x-clip pb-[86px] sm:pb-0">
       {/* TOP BAR */}
